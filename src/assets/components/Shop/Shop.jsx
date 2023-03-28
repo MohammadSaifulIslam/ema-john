@@ -11,11 +11,28 @@ const Shop = () => {
         .then(res => res.json())
         .then(data => setProducts(data))
     },[])
-
+    // get cart product details from localstore
     useEffect(()=>{
-        const storedCart = getShoppingCart()
-        console.log(storedCart)
-    },[])
+        const storedCart = getShoppingCart();
+        const savedCart = [];
+        // step-1 get id
+        for(const id in storedCart){
+            // get the added product by using id
+            const addedProduct = products.find(product => product.id === id)
+            if(addedProduct){
+                // step-3 get and set the product quantity 
+                const quantity = storedCart[id]
+                addedProduct.quantity = quantity;
+
+                // step-4 add the addedProduct to the saved cart
+                savedCart.push(addedProduct)
+            }
+        }
+        // step-5 set the cart 
+        setCart(savedCart)
+
+    },[products])
+
     // add to cart function
     const handleAddToCart = (product) =>{
         // console.log(product)
