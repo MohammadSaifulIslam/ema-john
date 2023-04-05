@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Cart = ({cart}) => {
     // calculate cart
@@ -24,8 +25,8 @@ const Cart = ({cart}) => {
             <p className='pt-5'>Tax: ${tax.toFixed(2)}</p>
             <h6 className='pt-5 text-xl font-medium'>Grand Total: ${grandTotal}</h6>
             </div>
-            <button className='btn bg-error w-full normal-case text-white hover:bg-error'>Clear Cart</button>
-            <button className='btn bg-secondary w-full normal-case text-white hover:bg-secondary'>Review Order</button>            <button></button>
+            <button className='btn mb-5 bg-error w-full normal-case text-white hover:bg-error'>Clear Cart</button>
+            <Link to='/orders' className='btn bg-secondary w-full normal-case text-white hover:bg-secondary'>Review Order</Link>
         </div>
     );
 };

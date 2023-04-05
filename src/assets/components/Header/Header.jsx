@@ -10,8 +10,8 @@ const Header = () => {
                 </div>
                 <div className="flex-none">
                     <ul className='flex gap-4'>
-                        <li><NavLink to='/' className='hover:text-secondary duration-200' href="#">Order</NavLink></li>
-                        <li><NavLink  to='/review' className='hover:text-secondary duration-200' href="">Order Review</NavLink></li>
+                        <li><NavLink to='/' className='hover:text-secondary duration-200' href="#">Shop</NavLink></li>
+                        <li><NavLink  to='/orders' className='hover:text-secondary duration-200' href="">Order Review</NavLink></li>
                         <li><NavLink  to='/inventory' className='hover:text-secondary duration-200' href="">Manage Inventory</NavLink></li>
                         <li><NavLink  to='/login' className='hover:text-secondary duration-200' href="">Login</NavLink></li>
                     </ul>
