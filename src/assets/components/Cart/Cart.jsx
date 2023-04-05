@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Cart = ({cart}) => {
+const Cart = ({cart,handleClearCart}) => {
     // calculate cart
     let totalPrice = 0;
     let shippingCost = 0;
@@ -25,7 +25,7 @@ const Cart = ({cart}) => {
             <p className='pt-5'>Tax: ${tax.toFixed(2)}</p>
             <h6 className='pt-5 text-xl font-medium'>Grand Total: ${grandTotal}</h6>
             </div>
-            <button className='btn mb-5 bg-error w-full normal-case text-white hover:bg-error'>Clear Cart</button>
+            <button onClick={handleClearCart}  className='btn mb-5 bg-error w-full normal-case text-white hover:bg-error'>Clear Cart</button>
             <Link to='/orders' className='btn bg-secondary w-full normal-case text-white hover:bg-secondary'>Review Order</Link>
         </div>
     );
