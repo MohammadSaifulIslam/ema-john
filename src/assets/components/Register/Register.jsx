@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../providers/AuthProvider';
 
 const Register = () => {
+    const {createUser} = useContext(AuthContext)
     const handleRegister =(event)=>{
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
         const confirmPassword = form.confirmPassword.value;
+        console.log(email,password,confirmPassword)
         if(!password === confirmPassword){
             alert('password must be same')
             return
         }
-        console.log(email,password,confirmPassword)
+
+        createUser(email, password)
+        .then(result =>{
+            const loggedUser = result.user;
+            console.log(loggedUser)
+            event.target.reset()
+        })
+        .catch(error =>{
+            console.error(error)
+        })
+
     }
     return (
         <form onSubmit={handleRegister} className='p-10 border border-gray w-full md:w-[500px] mx-auto my-20 rounded-xl'>

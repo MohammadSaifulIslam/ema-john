@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../providers/AuthProvider';
 
 const Login = () => {
+    const {userLogin} =useContext(AuthContext)
     const handleLogin =(event)=>{
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
         console.log(email,password)
+
+
+        userLogin(email, password)
+        .then(result =>{
+            const loggedUser = result.user;
+            console.log(loggedUser)
+            event.target.reset()
+        })
+        .catch(error =>{
+            console.error(error)
+        })
     }
     return (
         <form onSubmit={handleLogin} className='p-10 border border-gray w-full md:w-[500px] mx-auto my-20 rounded-xl'>
@@ -21,7 +34,7 @@ const Login = () => {
                 <input type="password" name='password' className="input input-bordered w-full mt-3" required/>
             </div>
             <button className='w-full py-4 bg-neutral rounded cursor-pointer mt-5 duration-200 hover:bg-secondary hover:text-white'>Login</button>
-            <p className='mt-2 text-center'>New to Ema-john? <Link className='text-secondary ml-1' to='/login'>  Create New Account</Link></p>
+            <p className='mt-2 text-center'>New to Ema-john? <Link className='text-secondary ml-1' to='/register'>  Create New Account</Link></p>
         </form>
     );
 };
