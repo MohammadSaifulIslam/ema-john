@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import logo from '../../images/Logo.svg';
 import { NavLink } from 'react-router-dom';
+import { AuthContext } from '../../../providers/AuthProvider';
 const Header = () => {
+    const {user} = useContext(AuthContext)
     return (
         <nav className='px-10 bg-primary text-white'>
             <div className="navbar ">
@@ -10,10 +12,12 @@ const Header = () => {
                 </div>
                 <div className="flex-none">
                     <ul className='flex gap-4'>
-                        <li><NavLink to='/' className='hover:text-secondary duration-200' href="#">Shop</NavLink></li>
-                        <li><NavLink  to='/orders' className='hover:text-secondary duration-200' href="">Order Review</NavLink></li>
-                        <li><NavLink  to='/inventory' className='hover:text-secondary duration-200' href="">Manage Inventory</NavLink></li>
-                        <li><NavLink  to='/login' className='hover:text-secondary duration-200' href="">Login</NavLink></li>
+                        <li><NavLink to='/' className='hover:text-secondary duration-200' >Shop</NavLink></li>
+                        <li><NavLink  to='/orders' className='hover:text-secondary duration-200' >Order Review</NavLink></li>
+                        <li><NavLink  to='/inventory' className='hover:text-secondary duration-200' >Manage Inventory</NavLink></li>
+                        <li><NavLink  to='/register' className='hover:text-secondary duration-200' >Register</NavLink></li>
+                        <li><NavLink  to='/login' className='hover:text-secondary duration-200' >Login</NavLink></li>
+                        {user && <li><p>{user}</p></li>}
                     </ul>
                 </div>
             </div>
