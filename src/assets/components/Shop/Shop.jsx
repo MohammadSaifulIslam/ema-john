@@ -1,16 +1,16 @@
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { addToDb, deleteShoppingCart, getShoppingCart } from '../../utilities/fakedb';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 const Shop = () => {
     const [products, setProducts] = useState([])
     const [cart, setCart] = useState([])
     useEffect(()=>{
-        fetch('products.json')
+        fetch('http://localhost:5000/products')
         .then(res => res.json())
         .then(data => setProducts(data))
     },[])
@@ -21,7 +21,7 @@ const Shop = () => {
         // step-1 get id
         for(const id in storedCart){
             // get the added product by using id
-            const addedProduct = products.find(product => product.id === id)
+            const addedProduct = products.find(product => product._id === id)
             if(addedProduct){
                 // step-3 get and set the product quantity 
                 const quantity = storedCart[id]
@@ -42,7 +42,7 @@ const Shop = () => {
         // const newCart = [...cart, product]
         // if product dosen't exist in the cart, then set quantity =1
         // if exist then update quantity by 1
-        const exist = cart.find(pd => pd.id === product.id)
+        const exist = cart.find(pd => pd._id === product._id)
         console.log('product exist', exist)
         if(!exist){
             product.quantity = 1;
@@ -50,12 +50,12 @@ const Shop = () => {
         }
         else{
             exist.quantity += 1;
-            const remaining = cart.filter(pd => pd.id !== product.id)
+            const remaining = cart.filter(pd => pd._id !== product._id)
             newCart = [...remaining, product]
         }
 
         setCart(newCart)
-        addToDb(product.id)
+        addToDb(product._id)
     };
     // handle cler cart function
     const handleClearCart = () =>{
@@ -68,7 +68,7 @@ const Shop = () => {
             <div className="product-contaier col-span-4 m-8">
                <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
                {
-                    products.map(product => <Product key={product.id} product={product} handleAddToCart={handleAddToCart}></Product>)
+                    products.map(product => <Product key={product._id} product={product} handleAddToCart={handleAddToCart}></Product>)
                 }
                </div>
             </div>

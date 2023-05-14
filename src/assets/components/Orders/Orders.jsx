@@ -1,18 +1,17 @@
+import { faCreditCardAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
-import Cart from '../Cart/Cart';
 import { Link, useLoaderData } from 'react-router-dom';
+import { deleteShoppingCart, removeFromDb } from '../../utilities/fakedb';
+import Cart from '../Cart/Cart';
 import ReviewItem from '../ReviewItem/ReviewItem';
-import { removeFromDb } from '../../utilities/fakedb';
-import { deleteShoppingCart } from '../../utilities/fakedb';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCreditCardAlt } from '@fortawesome/free-solid-svg-icons'
 
 const Orders = () => {
     const savedCart = useLoaderData();
     const [cart,setCart] = useState(savedCart);
     // handle remove review item
     const handleRemoveItem = id =>{
-        const remaing = cart.filter(product => product.id !== id);
+        const remaing = cart.filter(product => product._id !== id);
         setCart(remaing);
         removeFromDb(id);
     }
@@ -27,7 +26,7 @@ const Orders = () => {
            <div>
             {
                 cart.map(product => <ReviewItem
-                key={product.id}
+                key={product._id}
                 product={product}
                 handleRemoveItem={handleRemoveItem}
                 >
