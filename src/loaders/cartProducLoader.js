@@ -1,11 +1,19 @@
 import { getShoppingCart } from "../assets/utilities/fakedb";
 
 const cartProductLoader = async() => {
-    const loadedProducts = await fetch('http://localhost:5000/products');
+    //  cart data load from database
+    const storedCart = getShoppingCart();
+    const ids = Object.keys(storedCart);
+    const loadedProducts = await fetch('http://localhost:5000/productsById',{
+        method: "POST",
+        headers:{
+            'content-type' : 'application/json'
+        },
+        body: JSON.stringify(ids)
+    });
     const products = await loadedProducts.json();
 
-    // if cart data is in database, you have to use asinc await
-    const storedCart = getShoppingCart();
+    console.log(products)
 
     const savedCart = [];
 
