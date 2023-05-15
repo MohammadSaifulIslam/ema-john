@@ -10,21 +10,39 @@ const Shop = () => {
     const [products, setProducts] = useState([])
     const [cart, setCart] = useState([])
 
+    // pagination state 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(9);
+
     // pagiation data load
     const { totalProducts } = useLoaderData();
 
     // pagination
-    const itemsPerPage = 10;
     const totalPage = Math.ceil(totalProducts / itemsPerPage);
 
     const pageNumbers = [...Array(totalPage).keys()]
     console.log({ pageNumbers })
 
+    // useEffect(() => {
+    //     fetch('http://localhost:5000/products')
+    //         .then(res => res.json())
+    //         .then(data => setProducts(data))
+    // }, [])
+
+    // pagination: load data by using current page and itemsPerPage 
     useEffect(() => {
-        fetch('http://localhost:5000/products')
-            .then(res => res.json())
-            .then(data => setProducts(data))
-    }, [])
+        const fetchData = async () => {
+          // Make API call here, passing currentPage and itemsPerPage as query parameters
+          const response = await fetch(`http://localhost:5000/products?page=${currentPage}&limit=${itemsPerPage}`);
+          const result = await response.json();
+          setProducts(result);
+        };
+    
+        fetchData();
+      }, [currentPage, itemsPerPage]);
+
+
+
     // get cart product details from localstore
     useEffect(() => {
         const storedCart = getShoppingCart();
@@ -73,7 +91,12 @@ const Shop = () => {
         setCart([]);
         deleteShoppingCart();
     }
-
+    // pagination function 
+    const handleSelectChange = (e) => {
+        const newValue = parseInt(e.target.value);
+        setItemsPerPage(newValue);
+        setCurrentPage(1);
+    };
     return (
         <>
             <div className='shop-container grid grid-cols-5'>
@@ -93,11 +116,20 @@ const Shop = () => {
             {/* pagination */}
             <div className="text-center my-10 space-x-3">
                 {
-                    pageNumbers.map((number, index) => <button
-                        key={index}
-                        className="btn btn-circle btn-outline">
-                        {index + 1}
+                    pageNumbers.map(number => <button
+                        key={number}
+                        onClick={()=> setCurrentPage(number + 1)}
+                        className={`border border-warning h-10 w-10 rounded-full ${currentPage === number + 1 && 'btn-warning'}`}>
+                        {number + 1}
                     </button>)
+
+                }
+                {
+                    <select value={itemsPerPage} onChange={handleSelectChange} className="p-1 border-2 select-warning">
+                        <option value={9}>9</option>
+                        <option value={15}>15</option>
+                        <option value={30}>30</option>
+                    </select>
                 }
             </div>
         </>
